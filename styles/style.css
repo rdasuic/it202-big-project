@@ -1,5 +1,6 @@
 :root {
     --mdc-theme-primary: crimson;
+    --mdc-theme-secondary: #37474f;
 }
 body {
     margin: 0;
