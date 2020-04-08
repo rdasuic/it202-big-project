@@ -6,20 +6,17 @@ const addRoomDialogTextFieldEl = document.querySelector('.add-room-text-field');
 const addRoomDialogTextField = new mdc.textField.MDCTextField(addRoomDialogTextFieldEl);
 const snackbarEl = document.querySelector('.mdc-snackbar');
 const snackbar = new mdc.snackbar.MDCSnackbar(snackbarEl);
-addRoomFabEl.addEventListener('click', () => addRoomAction());
-const addRoomAction = () => {
-    addRoomDialog.open();
-}
+addRoomFabEl.addEventListener('click', () => addRoomDialog.open());
+
 addRoomDialog.listen('MDCDialog:closing', (ev) => {
-    console.log(ev);
-    //if the user cancelled the dialog
-    if(ev.detail.action == 'no' || ev.detail.action == 'close') {
-        console.log("close");
+    // if the user filled in a name 
+    if (ev.detail.action == 'yes' && addRoomDialogTextField.value.trim() != '') {
+        snackbar.labelText = `New room "${addRoomDialogTextField.value}" added.`
+        snackbar.open();
     }
-    // if the user didn't fill in a name 
-    else if (ev.detail.action == 'yes' && addRoomDialogTextField.value.trim() != '') {
-        console.log(`New room with name ${addRoomDialogTextField.value}`);
-        snackbar.labelText = `New room with name "${addRoomDialogTextField.value}" added.`
+    // if the user left the room name empty
+    else if (ev.detail.action == 'yes' && addRoomDialogTextField.value.trim() == '') {
+        snackbar.labelText = "Room name can't be empty";
         snackbar.open();
     }
 });
