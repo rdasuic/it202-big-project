@@ -13,6 +13,7 @@ addRoomDialog.listen('MDCDialog:closing', (ev) => {
     if (ev.detail.action == 'yes' && addRoomDialogTextField.value.trim() != '') {
         snackbar.labelText = `New room "${addRoomDialogTextField.value}" added.`
         snackbar.open();
+        addNewRoomToDb(addRoomDialogTextField.value.trim());
     }
     // if the user left the room name empty
     else if (ev.detail.action == 'yes' && addRoomDialogTextField.value.trim() == '') {
