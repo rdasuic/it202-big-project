@@ -11,3 +11,9 @@ const addNewRoomToDb = (roomName) => {
         });
     });
 }
+const getAllRoomsFromDb = () => {
+    console.log("Grabbing rooms from db...");
+    return new Promise((resolve, reject) => {
+        db.table('rooms').toArray().then((data) => resolve(data));
+   });
+}
