@@ -22,6 +22,8 @@ getAllRoomsFromDb().then(data => {
 });
 
 const constructRoomsList = () => {
+    // hide the no rooms view
+    noRoomsView.style.display = 'none';
     // clear the rooms list first
     roomsList.textContent = '';
     for(let room of rooms) {
@@ -52,18 +54,22 @@ const constructRoomsList = () => {
 addRoomFabEl.addEventListener('click', () => addRoomDialog.open());
 
 addRoomDialog.listen('MDCDialog:closing', (ev) => {
+    const newRoomName = addRoomDialogTextField.value.trim();
     // if the user filled in a name 
-    if (ev.detail.action == 'yes' && addRoomDialogTextField.value.trim() != '') {
-        snackbar.labelText = `New room "${addRoomDialogTextField.value}" added.`
+    if (ev.detail.action == 'yes' && newRoomName != '') {
+        snackbar.labelText = `New room "${newRoomName}" added.`
         snackbar.open();
-        addNewRoomToDb(addRoomDialogTextField.value.trim());
-        rooms.push({"name": addRoomDialogTextField.value.trim(), id: 69});
-        constructRoomsList();
+        addNewRoomToDb(newRoomName).then((newRowId) => {
+            rooms.push({"name": newRoomName, id: newRowId});
+            constructRoomsList();
+        });
     }
     // if the user left the room name empty
-    else if (ev.detail.action == 'yes' && addRoomDialogTextField.value.trim() == '') {
+    else if (ev.detail.action == 'yes' && newRoomName == '') {
         snackbar.labelText = "Room name can't be empty";
         snackbar.open();
     }
+    // empty the text field
+    addRoomDialogTextField.value = '';
 });
 

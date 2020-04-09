@@ -5,15 +5,13 @@ db.version(1).stores({
 });
 const addNewRoomToDb = (roomName) => {
     console.log("Adding a new room to db...");
-    db.open().then(() => {
-        return db.rooms.add({
-            name: roomName
-        });
-    });
+    return new Promise((resolve, reject) => {
+        db.rooms.add({"name": roomName}).then((data) => resolve(data));
+    })
 }
 const getAllRoomsFromDb = () => {
     console.log("Grabbing rooms from db...");
     return new Promise((resolve, reject) => {
-        db.table('rooms').toArray().then((data) => resolve(data));
+        db.rooms.toArray().then((data) => resolve(data));
    });
 }
