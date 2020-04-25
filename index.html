@@ -73,14 +73,14 @@
         <div class="mdc-top-app-bar__row">
             <section class="mdc-top-app-bar__section mdc-top-app-bar__section--align-start">
                 <button class="material-icons mdc-top-app-bar__navigation-icon mdc-icon-button">menu</button>
-                <span class="mdc-top-app-bar__title">My Rooms</span>
+                <span class="mdc-top-app-bar__title" id="header-text">My Rooms</span>
             </section>
         </div>
     </header>
 
 
 
-    <main class="mdc-top-app-bar--fixed-adjust data-view">
+    <main class="mdc-top-app-bar--fixed-adjust main-rooms-list-view">
         <div class="no-rooms-added view">
             <center>
                 <h2><i class="material-icons">no_meeting_room</i></h2>
@@ -93,6 +93,12 @@
             </ul>
         </div>
         <button class="mdc-fab add-room-fab" aria-label="Add a room">
+            <div class="mdc-fab__ripple"></div>
+            <span class="mdc-fab__icon material-icons">add</span>
+        </button>
+    </main>
+    <main class="mdc-top-app-bar--fixed-adjust main-room-view">
+        <button class="mdc-fab add-device-fab" aria-label="Add a device">
             <div class="mdc-fab__ripple"></div>
             <span class="mdc-fab__icon material-icons">add</span>
         </button>

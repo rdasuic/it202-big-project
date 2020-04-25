@@ -6,26 +6,27 @@ const addRoomDialogTextFieldEl = document.querySelector('.add-room-text-field');
 const addRoomDialogTextField = new mdc.textField.MDCTextField(addRoomDialogTextFieldEl);
 const snackbarEl = document.querySelector('.mdc-snackbar');
 const snackbar = new mdc.snackbar.MDCSnackbar(snackbarEl);
-const roomsListView = document.querySelector('.rooms-list-view');
-const roomsList = document.querySelector('.rooms-list');
-const noRoomsView = document.querySelector('.no-rooms-added');
+const roomsListViewEl = document.querySelector('.rooms-list-view');
+const roomsListEl = document.querySelector('.rooms-list');
+const roomsListView = new mdc.list.MDCList(roomsListEl);
+const noRoomsViewEl = document.querySelector('.no-rooms-added');
 let rooms = [];
 getAllRoomsFromDb().then(data => {
     rooms = data; // reassign to local var
     if (rooms.length > 0) {
-        noRoomsView.style.display = 'none';
+        noRoomsViewEl.style.display = 'none';
         constructRoomsList();
     }
     else {
-        noRoomsView.style.display = 'block';
+        noRoomsViewEl.style.display = 'block';
     }
 });
 
 const constructRoomsList = () => {
     // hide the no rooms view
-    noRoomsView.style.display = 'none';
+    noRoomsViewEl.style.display = 'none';
     // clear the rooms list first
-    roomsList.textContent = '';
+    roomsListEl.textContent = '';
     for(let room of rooms) {
         let li = document.createElement('li');
         li.classList.add('mdc-list-item');
@@ -41,15 +42,17 @@ const constructRoomsList = () => {
         spanTextPri.textContent = room.name;
         let spanTextSec = document.createElement('span');
         spanTextSec.classList.add('mdc-list-item__secondary-text');
+        spanTextSec.setAttribute('id', 'room-id');
         spanTextSec.textContent = room.id;
         li.appendChild(iconSpan);
         iconSpan.appendChild(icon);
         spanText.appendChild(spanTextPri);
         spanText.appendChild(spanTextSec);
         li.appendChild(spanText);
-        roomsList.appendChild(li);
+        roomsListEl.appendChild(li);
     }
-    roomsListView.style.display = 'block';
+    roomsListViewEl.style.display = 'block';
+    attachClickListenerToRoomsList();
 }
 addRoomFabEl.addEventListener('click', () => addRoomDialog.open());
 
@@ -73,3 +76,15 @@ addRoomDialog.listen('MDCDialog:closing', (ev) => {
     addRoomDialogTextField.value = '';
 });
 
+const attachClickListenerToRoomsList = () => {
+    if(roomsListView.listElements.length != 0) {
+        roomsListView.listElements.forEach((item) => {
+            item.addEventListener('click', () => {
+                console.log(`Clicked on room ${item.querySelector('#room-id').textContent}`);
+            });
+        });
+    }
+}
+const goToRoomPage = (roomObj) => {
+    
+}
