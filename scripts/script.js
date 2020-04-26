@@ -10,7 +10,17 @@ const roomsListViewEl = document.querySelector('.rooms-list-view');
 const roomsListEl = document.querySelector('.rooms-list');
 const roomsListView = new mdc.list.MDCList(roomsListEl);
 const noRoomsViewEl = document.querySelector('.no-rooms-added');
+const mainRoomsListViewEl = document.querySelector('.main-rooms-list-view');
+const mainRoomViewEl = document.querySelector('.main-room-view');
+const noDevicesViewEl = document.querySelector('.no-devices-added');
+const topAppBarTitleEl = document.querySelector('#top-app-bar-title');
+const addDeviceFabEl = document.querySelector('.add-device-fab');
+const addDeviceDialogEl = document.querySelector('#mdc-dialog-device');
+const addDeviceDialog = new mdc.dialog.MDCDialog(addDeviceDialogEl);
+const addDeviceDialogTextFieldEl = document.querySelector('.add-device-text-field');
+const addDeviceDialogTextField = new mdc.textField.MDCTextField(addDeviceDialogTextFieldEl);
 let rooms = [];
+let devicesForRoom = [];
 getAllRoomsFromDb().then(data => {
     rooms = data; // reassign to local var
     if (rooms.length > 0) {
@@ -79,12 +89,28 @@ addRoomDialog.listen('MDCDialog:closing', (ev) => {
 const attachClickListenerToRoomsList = () => {
     if(roomsListView.listElements.length != 0) {
         roomsListView.listElements.forEach((item) => {
+            const roomId = item.querySelector('#room-id').textContent;
+            const roomObj = rooms.find(room => room.id == roomId);
             item.addEventListener('click', () => {
-                console.log(`Clicked on room ${item.querySelector('#room-id').textContent}`);
+                console.log(`Clicked on room ${roomId}`);
+                goToRoomPage(roomObj);
             });
         });
     }
 }
 const goToRoomPage = (roomObj) => {
-    
+    mainRoomsListViewEl.style.display = 'none';
+    mainRoomViewEl.style.display = 'block';
+    topAppBarTitleEl.textContent = roomObj.name;
+    getDevicesForRoomFromDb(roomObj.id).then(data => {
+      devicesForRoom = data; // reassign to local var
+      if(devicesForRoom > 0) {
+        constructDevicesList();
+      }
+      else {
+        noDevicesViewEl.style.display = 'block';
+      }
+    });
 }
+addDeviceFabEl.addEventListener('click', () => addDeviceDialog.open());
+

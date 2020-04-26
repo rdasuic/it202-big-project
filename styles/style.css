@@ -14,7 +14,7 @@ main {
 .view {
     display: none;
 }
-.add-room-fab {
+.add-room-fab, .add-device-fab{
     position: fixed;
     bottom: 1rem;
     right: 1rem;

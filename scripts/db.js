@@ -7,7 +7,7 @@ const addNewRoomToDb = (roomName) => {
     console.log("Adding a new room to db...");
     return new Promise((resolve, reject) => {
         db.rooms.add({"name": roomName}).then((data) => resolve(data));
-    })
+    });
 }
 const getAllRoomsFromDb = () => {
     console.log("Grabbing rooms from db...");
@@ -29,6 +29,6 @@ const addNewDeviceForRoomToDb = (name, powerConsumption, image, roomId) => {
 const getDevicesForRoomFromDb = (roomId) => {
     console.log(`Grabbing devices for room # ${roomId}`);
     return new Promise((resolve, reject) => {
-       db.devices.where(roomId).equals(roomId).then((data) => resolve(data)) ;
+       db.devices.where('roomId').equals(roomId).toArray().then((data) => resolve(data)) ;
     });
 }
