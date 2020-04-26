@@ -12,15 +12,22 @@ const roomsListView = new mdc.list.MDCList(roomsListEl);
 const noRoomsViewEl = document.querySelector('.no-rooms-added');
 const mainRoomsListViewEl = document.querySelector('.main-rooms-list-view');
 const mainRoomViewEl = document.querySelector('.main-room-view');
-const noDevicesViewEl = document.querySelector('.no-devices-added');
 const topAppBarTitleEl = document.querySelector('#top-app-bar-title');
 const addDeviceFabEl = document.querySelector('.add-device-fab');
+
 const addDeviceDialogEl = document.querySelector('#mdc-dialog-device');
 const addDeviceDialog = new mdc.dialog.MDCDialog(addDeviceDialogEl);
-const addDeviceDialogTextFieldEl = document.querySelector('.add-device-text-field');
-const addDeviceDialogTextField = new mdc.textField.MDCTextField(addDeviceDialogTextFieldEl);
+const addDeviceDialogNameTextFieldEl = document.querySelector('.add-device-name-text-field');
+const addDeviceDialogNameTextField = new mdc.textField.MDCTextField(addDeviceDialogNameTextFieldEl);
+const addDeviceDialogPowerTextFieldEl = document.querySelector('.add-device-power-text-field');
+const addDeviceDialogPowerTextField = new mdc.textField.MDCTextField(addDeviceDialogPowerTextFieldEl);
+const devicesListViewEl = document.querySelector('.devices-list-view');
+const devicesListEl = document.querySelector('.devices-list');
+const devicesListView = new mdc.list.MDCList(devicesListViewEl);
+const noDevicesViewEl = document.querySelector('.no-devices-added');
 let rooms = [];
-let devicesForRoom = [];
+let currentRoom = {};
+let devicesForCurrentRoom = [];
 getAllRoomsFromDb().then(data => {
     rooms = data; // reassign to local var
     if (rooms.length > 0) {
@@ -101,6 +108,7 @@ const attachClickListenerToRoomsList = () => {
 const goToRoomPage = (roomObj) => {
     mainRoomsListViewEl.style.display = 'none';
     mainRoomViewEl.style.display = 'block';
+    currentRoom = roomObj;
     topAppBarTitleEl.textContent = roomObj.name;
     getDevicesForRoomFromDb(roomObj.id).then(data => {
       devicesForRoom = data; // reassign to local var
@@ -114,3 +122,57 @@ const goToRoomPage = (roomObj) => {
 }
 addDeviceFabEl.addEventListener('click', () => addDeviceDialog.open());
 
+const constructDevicesList = () => {
+    // hide the no rooms view
+    noDevicesViewEl.style.display = 'none';
+    // clear the rooms list first
+    devicesListEl.textContent = '';
+    for(let device of devicesForCurrentRoom) {
+        let li = document.createElement('li');
+        li.classList.add('mdc-list-item');
+        let icon = document.createElement('i');
+        icon.classList.add('material-icons');
+        icon.textContent = "meeting_room";
+        let iconSpan = document.createElement('span');
+        iconSpan.classList.add('mdc-list-item__graphic');
+        let spanText = document.createElement('span');
+        spanText.classList.add('mdc-list-item__text');
+        let spanTextPri = document.createElement('span');
+        spanTextPri.classList.add('mdc-list-item__primary-text');
+        spanTextPri.textContent = device.name;
+        let spanTextSec = document.createElement('span');
+        spanTextSec.classList.add('mdc-list-item__secondary-text');
+        spanTextSec.setAttribute('id', 'room-id');
+        spanTextSec.textContent = device.powerConsumption;
+        li.appendChild(iconSpan);
+        iconSpan.appendChild(icon);
+        spanText.appendChild(spanTextPri);
+        spanText.appendChild(spanTextSec);
+        li.appendChild(spanText);
+        devicesListEl.appendChild(li);
+    }
+    devicesListViewEl.style.display = 'block';
+//     attachClickListenerToRoomsList();
+}
+
+addDeviceDialog.listen('MDCDialog:closing', (ev) => {
+    const newDeviceName = addDeviceDialogNameTextField.value.trim();
+    const newDevicePowerComsumptionValue = addDeviceDialogPowerTextField.value.trim();
+    const imageEncoding = 0;
+    // if the user filled in both fields 
+    if (ev.detail.action == 'yes' && newDeviceName != '' && newDevicePowerComsumptionValue != '') {
+        snackbar.labelText = `New device "${newDeviceName}" added.`
+        snackbar.open();
+        addNewDeviceForRoomToDb(newDeviceName, newDevicePowerComsumptionValue, imageEncoding, currentRoom.id).then((newRowId) => {
+            devicesForCurrentRoom.push({"id": newRowId, "name": newDeviceName, "powerConsumption": newDevicePowerComsumptionValue, "roomId": currentRoom.id});
+            constructDevicesList();
+        });
+    }
+    // if the user left the room name empty
+    else if (ev.detail.action == 'yes' && (newDeviceName == '' || newDevicePowerComsumptionValue == '')) {
+        snackbar.labelText = "All fields are required";
+        snackbar.open();
+    }
+    // empty the text field
+    addRoomDialogTextField.value = '';
+});
