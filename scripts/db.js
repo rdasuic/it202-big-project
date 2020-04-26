@@ -16,6 +16,7 @@ const getAllRoomsFromDb = () => {
    });
 }
 const addNewDeviceForRoomToDb = (name, powerConsumption, image, roomId) => {
+    console.log("Adding a new device to db...")
     const deviceObj = {
         "name": name,
         "powerConsumption": powerConsumption,
@@ -24,7 +25,7 @@ const addNewDeviceForRoomToDb = (name, powerConsumption, image, roomId) => {
     }
     return new Promise((resolve, reject) => {
         db.devices.add(deviceObj).then((data) => resolve(data));
-    })
+    });
 }
 const getDevicesForRoomFromDb = (roomId) => {
     console.log(`Grabbing devices for room # ${roomId}`);

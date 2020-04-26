@@ -25,9 +25,9 @@ const devicesListViewEl = document.querySelector('.devices-list-view');
 const devicesListEl = document.querySelector('.devices-list');
 const devicesListView = new mdc.list.MDCList(devicesListViewEl);
 const noDevicesViewEl = document.querySelector('.no-devices-added');
-let rooms = [];
-let currentRoom = {};
-let devicesForCurrentRoom = [];
+let rooms = []; // holds the all the rooms 
+let currentRoom = {}; // holds the current room on the page
+let devicesForCurrentRoom = []; // holds the devices for the current room
 getAllRoomsFromDb().then(data => {
     rooms = data; // reassign to local var
     if (rooms.length > 0) {
@@ -111,8 +111,8 @@ const goToRoomPage = (roomObj) => {
     currentRoom = roomObj;
     topAppBarTitleEl.textContent = roomObj.name;
     getDevicesForRoomFromDb(roomObj.id).then(data => {
-      devicesForRoom = data; // reassign to local var
-      if(devicesForRoom > 0) {
+      devicesForCurrentRoom = data; // reassign to local var
+      if(devicesForCurrentRoom.length > 0) {
         constructDevicesList();
       }
       else {
