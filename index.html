@@ -2,154 +2,176 @@
 <html>
 
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width">
-    <title>IT202 Big Project</title>
-    <link href="https://unpkg.com/material-components-web@v4.0.0/dist/material-components-web.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-    <link rel="stylesheet" href="./styles/style.css">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <title>IT202 Big Project</title>
+  <link href="https://unpkg.com/material-components-web@v4.0.0/dist/material-components-web.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+  <link rel="stylesheet" href="./styles/style.css">
 
 </head>
 
 <body>
 
-    <aside class="mdc-drawer mdc-drawer--modal">
-        <div class="mdc-drawer__content">
-            <nav class="mdc-list">
-                <a class="mdc-list-item mdc-list-item--activated" href="#home" aria-current="page">
-                    <i class="material-icons mdc-list-item__graphic" aria-hidden="true">inbox</i>
-                    <span class="mdc-list-item__text">Home</span>
-                </a>
-                <a class="mdc-list-item" href="#data">
-                    <i class="material-icons mdc-list-item__graphic" aria-hidden="true">send</i>
-                    <span class="mdc-list-item__text">Data</span>
-                </a>
-                <a class="mdc-list-item" href="#about">
-                    <i class="material-icons mdc-list-item__graphic" aria-hidden="true">drafts</i>
-                    <span class="mdc-list-item__text">About</span>
-                </a>
-            </nav>
-        </div>
-    </aside>
-    <div class="mdc-drawer-scrim"></div>
-
-    <!-- Dialogs: Add room -->
-    <div class="mdc-dialog" id="mdc-dialog-room">
-        <div class="mdc-dialog__container">
-            <div class="mdc-dialog__surface" role="alertdialog" aria-modal="true" aria-labelledby="my-dialog-title" aria-describedby="my-dialog-content">
-                <h2 class="mdc-dialog__title" id="my-dialog-title">Add a new room</h2>
-                <div class="mdc-dialog__content" id="my-dialog-content">
-                    <div class="mdc-text-field add-room-text-field">
-                        <input type="text" class="mdc-text-field__input" id="roomname-input" name="roomname" required>
-                        <label class="mdc-floating-label" for="roomname-input">Room name</label>
-                        <div class="mdc-line-ripple"></div>
-                    </div>
-                </div>
-                <footer class="mdc-dialog__actions">
-                    <button type="button" class="mdc-button mdc-dialog__button" data-mdc-dialog-action="no">
-                        <div class="mdc-button__ripple"></div>
-                        <span class="mdc-button__label">Cancel</span>
-                    </button>
-                    <button type="button" class="mdc-button mdc-dialog__button" data-mdc-dialog-action="yes" data-mdc-dialog-button-default>
-                        <div class="mdc-button__ripple"></div>
-                        <span class="mdc-button__label">Add</span>
-                    </button>
-                </footer>
-            </div>
-        </div>
-        <div class="mdc-dialog__scrim"></div>
+  <aside class="mdc-drawer mdc-drawer--modal">
+    <div class="mdc-drawer__content">
+      <nav class="mdc-list">
+        <a class="mdc-list-item mdc-list-item--activated" href="#home" aria-current="page">
+          <i class="material-icons mdc-list-item__graphic" aria-hidden="true">inbox</i>
+          <span class="mdc-list-item__text">Home</span>
+        </a>
+        <a class="mdc-list-item" href="#data">
+          <i class="material-icons mdc-list-item__graphic" aria-hidden="true">send</i>
+          <span class="mdc-list-item__text">Data</span>
+        </a>
+        <a class="mdc-list-item" href="#about">
+          <i class="material-icons mdc-list-item__graphic" aria-hidden="true">drafts</i>
+          <span class="mdc-list-item__text">About</span>
+        </a>
+      </nav>
     </div>
+  </aside>
+  <div class="mdc-drawer-scrim"></div>
+
+  <!-- Dialogs: Add room -->
+  <div class="mdc-dialog" id="mdc-dialog-room">
+    <div class="mdc-dialog__container">
+      <div class="mdc-dialog__surface" role="alertdialog" aria-modal="true" aria-labelledby="my-dialog-title" aria-describedby="my-dialog-content">
+        <h2 class="mdc-dialog__title" id="my-dialog-title">Add a new room</h2>
+        <div class="mdc-dialog__content" id="my-dialog-content">
+          <div class="mdc-text-field add-room-text-field">
+            <input type="text" class="mdc-text-field__input" id="roomname-input" name="roomname" required>
+            <label class="mdc-floating-label" for="roomname-input">Room name</label>
+            <div class="mdc-line-ripple"></div>
+          </div>
+        </div>
+        <footer class="mdc-dialog__actions">
+          <button type="button" class="mdc-button mdc-dialog__button" data-mdc-dialog-action="no">
+            <div class="mdc-button__ripple"></div>
+            <span class="mdc-button__label">Cancel</span>
+          </button>
+          <button type="button" class="mdc-button mdc-dialog__button" data-mdc-dialog-action="yes" data-mdc-dialog-button-default>
+            <div class="mdc-button__ripple"></div>
+            <span class="mdc-button__label">Add</span>
+          </button>
+        </footer>
+      </div>
+    </div>
+    <div class="mdc-dialog__scrim"></div>
+  </div>
   <!-- Dialogs: Add device -->
-    <div class="mdc-dialog" id="mdc-dialog-device">
-        <div class="mdc-dialog__container">
-            <div class="mdc-dialog__surface" role="alertdialog" aria-modal="true" aria-labelledby="my-dialog-title" aria-describedby="my-dialog-content">
-                <h2 class="mdc-dialog__title" id="my-dialog-title">Add a new device</h2>
-                <div class="mdc-dialog__content" id="my-dialog-content">
-                    <div class="mdc-text-field add-device-name-text-field">
-                        <input type="text" class="mdc-text-field__input" id="device-name-input" name="device-name" required>
-                        <label class="mdc-floating-label" for="device-name-input">Device name</label>
-                        <div class="mdc-line-ripple"></div>
-                    </div>
-                    <div class="mdc-text-field add-device-power-text-field">
-                        <input type="text" class="mdc-text-field__input" id="device-power-input" name="device-power" required>
-                        <label class="mdc-floating-label" for="device-power-input">Device power consumption</label>
-                        <div class="mdc-line-ripple"></div>
-                    </div>
-                </div>
-                <footer class="mdc-dialog__actions">
-                    <button type="button" class="mdc-button mdc-dialog__button" data-mdc-dialog-action="no">
-                        <div class="mdc-button__ripple"></div>
-                        <span class="mdc-button__label">Cancel</span>
-                    </button>
-                    <button type="button" class="mdc-button mdc-dialog__button" data-mdc-dialog-action="yes" data-mdc-dialog-button-default>
-                        <div class="mdc-button__ripple"></div>
-                        <span class="mdc-button__label">Add</span>
-                    </button>
-                </footer>
-            </div>
+  <div class="mdc-dialog" id="mdc-dialog-device">
+    <div class="mdc-dialog__container">
+      <div class="mdc-dialog__surface" role="alertdialog" aria-modal="true" aria-labelledby="my-dialog-title" aria-describedby="my-dialog-content">
+        <h2 class="mdc-dialog__title" id="my-dialog-title">Add a new device</h2>
+        <div class="mdc-dialog__content" id="my-dialog-content">
+          <div class="mdc-text-field add-device-name-text-field">
+            <input type="text" class="mdc-text-field__input" id="device-name-input" name="device-name" required>
+            <label class="mdc-floating-label" for="device-name-input">Device name</label>
+            <div class="mdc-line-ripple"></div>
+          </div>
+          <div class="mdc-text-field add-device-power-text-field">
+            <input type="text" class="mdc-text-field__input" id="device-power-input" name="device-power" required>
+            <label class="mdc-floating-label" for="device-power-input">Device power consumption</label>
+            <div class="mdc-line-ripple"></div>
+          </div>
+          <div class="mdc-text-field add-device-avg-hours-text-field">
+            <input type="text" class="mdc-text-field__input" id="device-avg-hours-input" name="device-avg-hours" required>
+            <label class="mdc-floating-label" for="device-avg-hours-input">Average hours device is on</label>
+            <div class="mdc-line-ripple"></div>
+          </div>
         </div>
-        <div class="mdc-dialog__scrim"></div>
+        <footer class="mdc-dialog__actions">
+          <button type="button" class="mdc-button mdc-dialog__button" data-mdc-dialog-action="no">
+            <div class="mdc-button__ripple"></div>
+            <span class="mdc-button__label">Cancel</span>
+          </button>
+          <button type="button" class="mdc-button mdc-dialog__button" data-mdc-dialog-action="yes" data-mdc-dialog-button-default>
+            <div class="mdc-button__ripple"></div>
+            <span class="mdc-button__label">Add</span>
+          </button>
+        </footer>
+      </div>
     </div>
+    <div class="mdc-dialog__scrim"></div>
+  </div>
 
-    <div class="mdc-snackbar">
-        <div class="mdc-snackbar__surface">
-            <div class="mdc-snackbar__label" role="status" aria-live="polite">
-                New room added!
-            </div>
-        </div>
+  <div class="mdc-snackbar">
+    <div class="mdc-snackbar__surface">
+      <div class="mdc-snackbar__label" role="status" aria-live="polite">
+        New room added!
+      </div>
     </div>
+  </div>
 
-    <header class="mdc-top-app-bar">
-        <div class="mdc-top-app-bar__row">
-            <section class="mdc-top-app-bar__section mdc-top-app-bar__section--align-start">
-                <button class="material-icons mdc-top-app-bar__navigation-icon mdc-icon-button">menu</button>
-                <span class="mdc-top-app-bar__title" id="top-app-bar-title">My Rooms</span>
-            </section>
-        </div>
-    </header>
+  <header class="mdc-top-app-bar">
+    <div class="mdc-top-app-bar__row">
+      <section class="mdc-top-app-bar__section mdc-top-app-bar__section--align-start">
+        <button class="material-icons mdc-top-app-bar__navigation-icon mdc-icon-button">menu</button>
+        <span class="mdc-top-app-bar__title" id="top-app-bar-title">My Rooms</span>
+      </section>
+    </div>
+  </header>
 
 
 
-    <main class="mdc-top-app-bar--fixed-adjust main-rooms-list-view">
-        <div class="no-rooms-added view">
-            <center>
-                <h2><i class="material-icons">no_meeting_room</i></h2>
-                <span class="mdc-typography--subtitle1">You haven't added any rooms yet! Hit the add button at the bottom to get started.</span>
-            </center>
-        </div>
-        <div class="rooms-list-view view">
-            <ul class="mdc-list mdc-list--two-line mdc-list--avatar-list rooms-list">
-                
-            </ul>
-        </div>
-        <button class="mdc-fab add-room-fab" aria-label="Add a room">
-            <div class="mdc-fab__ripple"></div>
-            <span class="mdc-fab__icon material-icons">add</span>
-        </button>
-    </main>
-    <main class="mdc-top-app-bar--fixed-adjust main-room-view">
-        <div class="no-devices-added view">
-            <center>
-                <h2><i class="material-icons">tv_off</i></h2>
-                <span class="mdc-typography--subtitle1">You haven't added any devices to this room yet! Hit the add button at the bottom to get started.</span>
-            </center>
-        </div>
-        <div class="devices-list-view view">
-            <ul class="mdc-list mdc-list--two-line mdc-list--avatar-list devices-list">
-                
-            </ul>
-        </div>
-        <button class="mdc-fab add-device-fab" aria-label="Add a device">
-            <div class="mdc-fab__ripple"></div>
-            <span class="mdc-fab__icon material-icons">add</span>
-        </button>
-    </main>
+  <main class="mdc-top-app-bar--fixed-adjust main-rooms-list-view">
+    <div class="no-rooms-added view">
+      <center>
+        <h2><i class="material-icons">no_meeting_room</i></h2>
+        <span class="mdc-typography--subtitle1">You haven't added any rooms yet! Hit the add button at the bottom to get started.</span>
+      </center>
+    </div>
+    <div class="rooms-list-view view">
+      <ul class="mdc-list mdc-list--two-line mdc-list--avatar-list rooms-list">
 
-    <script src="https://unpkg.com/material-components-web@v4.0.0/dist/material-components-web.min.js"></script>
-    <script src="https://unpkg.com/dexie@latest/dist/dexie.js"></script>
-    <script src="./scripts/db.js"></script>
-    <script src="./scripts/script.js"></script>
+      </ul>
+      
+      <div class="mdc-card room-card room-card-template">
+        <div class="mdc-card__primary-action room-card__primary-action mdc-ripple-upgraded" tabindex="0">
+          <div class="room-card__primary">
+            <h2 class="room-card__title mdc-typography mdc-typography--headline6 room-name">My Room</h2>
+            <h3 class="room-card__subtitle mdc-typography mdc-typography--subtitle2 room-id">Room # 4</h3>
+          </div>
+          <div class="room-card__secondary mdc-typography mdc-typography--body2 room-device-count">There are 4 devices in this room.</div>
+        </div>
+        <div class="mdc-card__actions">
+          <div class="mdc-card__action-buttons">
+            <button class="mdc-button mdc-card__action mdc-card__action--button mdc-ripple-upgraded"><span class="mdc-button__ripple"></span>View room</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    
+    <button class="mdc-fab add-room-fab" aria-label="Add a room">
+      <div class="mdc-fab__ripple"></div>
+      <span class="mdc-fab__icon material-icons">add</span>
+    </button>
+  </main>
+  <main class="mdc-top-app-bar--fixed-adjust main-room-view">
+    <div class="no-devices-added view">
+      <center>
+        <h2><i class="material-icons">tv_off</i></h2>
+        <span class="mdc-typography--subtitle1">You haven't added any devices to this room yet! Hit the add button at the bottom to get started.</span>
+      </center>
+    </div>
+    <div class="devices-list-view view">
+      <ul class="mdc-list mdc-list--two-line mdc-list--avatar-list devices-list">
+
+      </ul>
+    </div>
+    <button class="mdc-fab add-device-fab" aria-label="Add a device">
+      <div class="mdc-fab__ripple"></div>
+      <span class="mdc-fab__icon material-icons">add</span>
+    </button>
+  </main>
+
+  <script src="https://unpkg.com/material-components-web@v4.0.0/dist/material-components-web.min.js"></script>
+  <script src="https://unpkg.com/dexie@latest/dist/dexie.js"></script>
+  <script src="./scripts/db.js"></script>
+  <script src="./scripts/script.js"></script>
 </body>
 
 

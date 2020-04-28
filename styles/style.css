@@ -25,3 +25,21 @@ main {
         right: 1.5rem;
     }
 }
+.room-card {
+/*   height: 550px; */
+  margin: 48px 0;
+  width: 350px;
+}
+.room-card__primary {
+  padding: 1rem;
+}
+.room-card__secondary {
+  padding: 0 1rem 8px;
+}
+.room-card__title {
+  margin: 0;
+}
+.room-card__secondary, .room-card__subtitle {
+  color: var(--mdc-theme-text-secondary-on-background,rgba(0,0,0,.54));
+  margin: 0;
+}

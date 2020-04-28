@@ -1,30 +1,41 @@
+const topAppBarTitleEl = document.querySelector('#top-app-bar-title');
+const snackbarEl = document.querySelector('.mdc-snackbar');
+const snackbar = new mdc.snackbar.MDCSnackbar(snackbarEl);
+
+
+
+const mainRoomsListViewEl = document.querySelector('.main-rooms-list-view');
+const mainRoomViewEl = document.querySelector('.main-room-view');
 const addRoomFabEl = document.querySelector('.add-room-fab');
 mdc.ripple.MDCRipple.attachTo(addRoomFabEl);
 const addRoomDialogEl = document.querySelector('#mdc-dialog-room');
 const addRoomDialog = new mdc.dialog.MDCDialog(addRoomDialogEl);
 const addRoomDialogTextFieldEl = document.querySelector('.add-room-text-field');
 const addRoomDialogTextField = new mdc.textField.MDCTextField(addRoomDialogTextFieldEl);
-const snackbarEl = document.querySelector('.mdc-snackbar');
-const snackbar = new mdc.snackbar.MDCSnackbar(snackbarEl);
 const roomsListViewEl = document.querySelector('.rooms-list-view');
 const roomsListEl = document.querySelector('.rooms-list');
 const roomsListView = new mdc.list.MDCList(roomsListEl);
 const noRoomsViewEl = document.querySelector('.no-rooms-added');
-const mainRoomsListViewEl = document.querySelector('.main-rooms-list-view');
-const mainRoomViewEl = document.querySelector('.main-room-view');
-const topAppBarTitleEl = document.querySelector('#top-app-bar-title');
-const addDeviceFabEl = document.querySelector('.add-device-fab');
+const roomTemplateCard = document.querySelector('.room-card-template');
 
+const addDeviceFabEl = document.querySelector('.add-device-fab');
 const addDeviceDialogEl = document.querySelector('#mdc-dialog-device');
 const addDeviceDialog = new mdc.dialog.MDCDialog(addDeviceDialogEl);
 const addDeviceDialogNameTextFieldEl = document.querySelector('.add-device-name-text-field');
 const addDeviceDialogNameTextField = new mdc.textField.MDCTextField(addDeviceDialogNameTextFieldEl);
 const addDeviceDialogPowerTextFieldEl = document.querySelector('.add-device-power-text-field');
 const addDeviceDialogPowerTextField = new mdc.textField.MDCTextField(addDeviceDialogPowerTextFieldEl);
+const addDeviceDialogAvgHoursTextFieldEl = document.querySelector('.add-device-avg-hours-text-field');
+const addDeviceDialogAvgHoursTextField = new mdc.textField.MDCTextField(addDeviceDialogAvgHoursTextFieldEl);
 const devicesListViewEl = document.querySelector('.devices-list-view');
 const devicesListEl = document.querySelector('.devices-list');
 const devicesListView = new mdc.list.MDCList(devicesListViewEl);
 const noDevicesViewEl = document.querySelector('.no-devices-added');
+const cardSelectors = '.mdc-button, .mdc-icon-button, .mdc-card__primary-action';
+// enable ripple effects on cards
+[].map.call(document.querySelectorAll(cardSelectors), (el) => {
+  return new mdc.ripple.MDCRipple(el);
+});
 let rooms = []; // holds the all the rooms 
 let currentRoom = {}; // holds the current room on the page
 let devicesForCurrentRoom = []; // holds the devices for the current room
@@ -44,32 +55,16 @@ const constructRoomsList = () => {
     noRoomsViewEl.style.display = 'none';
     // clear the rooms list first
     roomsListEl.textContent = '';
-    for(let room of rooms) {
-        let li = document.createElement('li');
-        li.classList.add('mdc-list-item');
-        let icon = document.createElement('i');
-        icon.classList.add('material-icons');
-        icon.textContent = "meeting_room";
-        let iconSpan = document.createElement('span');
-        iconSpan.classList.add('mdc-list-item__graphic');
-        let spanText = document.createElement('span');
-        spanText.classList.add('mdc-list-item__text');
-        let spanTextPri = document.createElement('span');
-        spanTextPri.classList.add('mdc-list-item__primary-text');
-        spanTextPri.textContent = room.name;
-        let spanTextSec = document.createElement('span');
-        spanTextSec.classList.add('mdc-list-item__secondary-text');
-        spanTextSec.setAttribute('id', 'room-id');
-        spanTextSec.textContent = room.id;
-        li.appendChild(iconSpan);
-        iconSpan.appendChild(icon);
-        spanText.appendChild(spanTextPri);
-        spanText.appendChild(spanTextSec);
-        li.appendChild(spanText);
-        roomsListEl.appendChild(li);
-    }
+    rooms.map((room) => {
+      let roomCardClone = roomTemplateCard.cloneNode(true);
+      roomCardClone.querySelector('.room-name').textContent = room.name;
+      roomCardClone.querySelector('.room-id').textContent = `Room # ${room.id}`;
+      roomCardClone.querySelector('.room-device-count').textContent = 'This room has 4 devices';
+      roomsListViewEl.appendChild(roomCardClone);
+
+    });
     roomsListViewEl.style.display = 'block';
-    attachClickListenerToRoomsList();
+//     attachClickListenerToRoomsList();
 }
 addRoomFabEl.addEventListener('click', () => addRoomDialog.open());
 
