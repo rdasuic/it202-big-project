@@ -12,11 +12,11 @@ const addRoomDialogEl = document.querySelector('#mdc-dialog-room');
 const addRoomDialog = new mdc.dialog.MDCDialog(addRoomDialogEl);
 const addRoomDialogTextFieldEl = document.querySelector('.add-room-text-field');
 const addRoomDialogTextField = new mdc.textField.MDCTextField(addRoomDialogTextFieldEl);
-const roomsListViewEl = document.querySelector('.rooms-list-view');
-const roomsListEl = document.querySelector('.rooms-list');
-const roomsListView = new mdc.list.MDCList(roomsListEl);
 const noRoomsViewEl = document.querySelector('.no-rooms-added');
-const roomTemplateCard = document.querySelector('.room-card-template');
+const roomTemplateCardCell = document.querySelector('.room-card-template-cell');
+const roomsLayoutGridInnerEl = document.querySelector('.rooms-layout-grid');
+const roomsCardsViewEl = document.querySelector('.rooms-cards-view');
+
 
 const addDeviceFabEl = document.querySelector('.add-device-fab');
 const addDeviceDialogEl = document.querySelector('#mdc-dialog-device');
@@ -31,11 +31,7 @@ const devicesListViewEl = document.querySelector('.devices-list-view');
 const devicesListEl = document.querySelector('.devices-list');
 const devicesListView = new mdc.list.MDCList(devicesListViewEl);
 const noDevicesViewEl = document.querySelector('.no-devices-added');
-const cardSelectors = '.mdc-button, .mdc-icon-button, .mdc-card__primary-action';
-// enable ripple effects on cards
-[].map.call(document.querySelectorAll(cardSelectors), (el) => {
-  return new mdc.ripple.MDCRipple(el);
-});
+
 let rooms = []; // holds the all the rooms 
 let currentRoom = {}; // holds the current room on the page
 let devicesForCurrentRoom = []; // holds the devices for the current room
@@ -54,17 +50,18 @@ const constructRoomsList = () => {
     // hide the no rooms view
     noRoomsViewEl.style.display = 'none';
     // clear the rooms list first
-    roomsListEl.textContent = '';
+    roomsLayoutGridInnerEl.textContent = '';
     rooms.map((room) => {
-      let roomCardClone = roomTemplateCard.cloneNode(true);
+      let roomCardClone = roomTemplateCardCell.cloneNode(true);
       roomCardClone.querySelector('.room-name').textContent = room.name;
-      roomCardClone.querySelector('.room-id').textContent = `Room # ${room.id}`;
+      roomCardClone.querySelector('.room-id').textContent = room.id;
       roomCardClone.querySelector('.room-device-count').textContent = 'This room has 4 devices';
-      roomsListViewEl.appendChild(roomCardClone);
-
+      roomCardClone.classList.remove('room-card-template-cell');
+      roomsLayoutGridInnerEl.appendChild(roomCardClone);
     });
-    roomsListViewEl.style.display = 'block';
-//     attachClickListenerToRoomsList();
+    activateCardClickAnimations();
+    roomsCardsViewEl.style.display = 'block';
+    attachClickListenerToRoomCards();
 }
 addRoomFabEl.addEventListener('click', () => addRoomDialog.open());
 
@@ -88,17 +85,17 @@ addRoomDialog.listen('MDCDialog:closing', (ev) => {
     addRoomDialogTextField.value = '';
 });
 
-const attachClickListenerToRoomsList = () => {
-    if(roomsListView.listElements.length != 0) {
-        roomsListView.listElements.forEach((item) => {
-            const roomId = item.querySelector('#room-id').textContent;
-            const roomObj = rooms.find(room => room.id == roomId);
-            item.addEventListener('click', () => {
-                console.log(`Clicked on room ${roomId}`);
-                goToRoomPage(roomObj);
-            });
-        });
-    }
+const attachClickListenerToRoomCards = () => {
+  const roomCards = document.querySelectorAll('.room-card');
+  roomCards.forEach((item) => {
+    const viewRoomBtnEl = item.querySelector('.mdc-button');
+    const roomId = item.querySelector('.room-id').textContent;
+    const roomObj = rooms.find(room => room.id == roomId);
+    viewRoomBtnEl.addEventListener('click', () => {
+        console.log(`Clicked on room ${roomId}`);
+        goToRoomPage(roomObj);
+    });
+  });
 }
 const goToRoomPage = (roomObj) => {
     mainRoomsListViewEl.style.display = 'none';
@@ -147,7 +144,7 @@ const constructDevicesList = () => {
         devicesListEl.appendChild(li);
     }
     devicesListViewEl.style.display = 'block';
-//     attachClickListenerToRoomsList();
+    attachClickListenerToRoomCards();
 }
 
 addDeviceDialog.listen('MDCDialog:closing', (ev) => {
@@ -171,3 +168,11 @@ addDeviceDialog.listen('MDCDialog:closing', (ev) => {
     // empty the text field
     addRoomDialogTextField.value = '';
 });
+
+const activateCardClickAnimations = () => {
+  const cardSelectors = '.mdc-button, .mdc-icon-button, .mdc-card__primary-action';
+  // enable ripple effects on cards
+  [].map.call(document.querySelectorAll(cardSelectors), (el) => {
+    return new mdc.ripple.MDCRipple(el);
+  });
+}

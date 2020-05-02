@@ -30,6 +30,9 @@ main {
   margin: 48px 0;
   width: 350px;
 }
+.room-card-template-cell {
+  display: none;
+}
 .room-card__primary {
   padding: 1rem;
 }
