@@ -1,7 +1,7 @@
 const db = new Dexie('appDb');
 db.version(1).stores({
     rooms: '++id,name',
-    devices: '++id, name, powerConsumption, image, roomId'
+    devices: '++id, name, powerConsumption, image, avgHours, roomId'
 });
 const addNewRoomToDb = (roomName) => {
     console.log("Adding a new room to db...");
@@ -15,11 +15,12 @@ const getAllRoomsFromDb = () => {
         db.rooms.toArray().then((data) => resolve(data));
    });
 }
-const addNewDeviceForRoomToDb = (name, powerConsumption, image, roomId) => {
+const addNewDeviceForRoomToDb = (name, powerConsumption, avgHours, image, roomId) => {
     console.log("Adding a new device to db...")
     const deviceObj = {
         "name": name,
         "powerConsumption": powerConsumption,
+        "avgHours": avgHours,
         "image": image,
         "roomId": roomId
     }

@@ -27,10 +27,12 @@ const addDeviceDialogPowerTextFieldEl = document.querySelector('.add-device-powe
 const addDeviceDialogPowerTextField = new mdc.textField.MDCTextField(addDeviceDialogPowerTextFieldEl);
 const addDeviceDialogAvgHoursTextFieldEl = document.querySelector('.add-device-avg-hours-text-field');
 const addDeviceDialogAvgHoursTextField = new mdc.textField.MDCTextField(addDeviceDialogAvgHoursTextFieldEl);
-const devicesListViewEl = document.querySelector('.devices-list-view');
-const devicesListEl = document.querySelector('.devices-list');
-const devicesListView = new mdc.list.MDCList(devicesListViewEl);
 const noDevicesViewEl = document.querySelector('.no-devices-added');
+const deviceTemplateCardCell = document.querySelector('.device-card-template-cell');
+const devicesLayoutGridInnerEl = document.querySelector('.devices-layout-grid');
+const devicesCardsViewEl = document.querySelector('.device-cards-view');
+
+
 
 let rooms = []; // holds the all the rooms 
 let currentRoom = {}; // holds the current room on the page
@@ -115,53 +117,39 @@ const goToRoomPage = (roomObj) => {
 addDeviceFabEl.addEventListener('click', () => addDeviceDialog.open());
 
 const constructDevicesList = () => {
-    // hide the no rooms view
+   // hide the no devices view
     noDevicesViewEl.style.display = 'none';
-    // clear the rooms list first
-    devicesListEl.textContent = '';
-    for(let device of devicesForCurrentRoom) {
-        let li = document.createElement('li');
-        li.classList.add('mdc-list-item');
-        let icon = document.createElement('i');
-        icon.classList.add('material-icons');
-        icon.textContent = "meeting_room";
-        let iconSpan = document.createElement('span');
-        iconSpan.classList.add('mdc-list-item__graphic');
-        let spanText = document.createElement('span');
-        spanText.classList.add('mdc-list-item__text');
-        let spanTextPri = document.createElement('span');
-        spanTextPri.classList.add('mdc-list-item__primary-text');
-        spanTextPri.textContent = device.name;
-        let spanTextSec = document.createElement('span');
-        spanTextSec.classList.add('mdc-list-item__secondary-text');
-        spanTextSec.setAttribute('id', 'room-id');
-        spanTextSec.textContent = device.powerConsumption;
-        li.appendChild(iconSpan);
-        iconSpan.appendChild(icon);
-        spanText.appendChild(spanTextPri);
-        spanText.appendChild(spanTextSec);
-        li.appendChild(spanText);
-        devicesListEl.appendChild(li);
-    }
-    devicesListViewEl.style.display = 'block';
-    attachClickListenerToRoomCards();
+    // clear the devices list first
+    devicesLayoutGridInnerEl.textContent = '';
+    devicesForCurrentRoom.map((device) => {
+      let deviceCardClone = deviceTemplateCardCell.cloneNode(true);
+      deviceCardClone.querySelector('.device-name').textContent = device.name;
+      deviceCardClone.querySelector('.device-power-consumption').textContent = device.powerConsumption;
+      deviceCardClone.querySelector('.device-avg-hours').textContent = device.avgHours;
+      deviceCardClone.querySelector('.room-device-count').textContent = 'This room has 4 devices';
+      deviceCardClone.classList.remove('device-card-template-cell');
+      devicesLayoutGridInnerEl.appendChild(deviceCardClone);
+    });
+    activateCardClickAnimations();
+    devicesCardsViewEl.style.display = 'block';
 }
 
 addDeviceDialog.listen('MDCDialog:closing', (ev) => {
     const newDeviceName = addDeviceDialogNameTextField.value.trim();
     const newDevicePowerComsumptionValue = addDeviceDialogPowerTextField.value.trim();
+    const newDeviceAvgHours = addDeviceDialogAvgHoursTextField.value.trim();
     const imageEncoding = 0;
     // if the user filled in both fields 
-    if (ev.detail.action == 'yes' && newDeviceName != '' && newDevicePowerComsumptionValue != '') {
+    if (ev.detail.action == 'yes' && newDeviceName != '' && newDevicePowerComsumptionValue != '' && newDeviceAvgHours != '') {
         snackbar.labelText = `New device "${newDeviceName}" added.`
         snackbar.open();
-        addNewDeviceForRoomToDb(newDeviceName, newDevicePowerComsumptionValue, imageEncoding, currentRoom.id).then((newRowId) => {
-            devicesForCurrentRoom.push({"id": newRowId, "name": newDeviceName, "powerConsumption": newDevicePowerComsumptionValue, "roomId": currentRoom.id});
+        addNewDeviceForRoomToDb(newDeviceName, newDevicePowerComsumptionValue, newDeviceAvgHours, imageEncoding, currentRoom.id).then((newRowId) => {
+            devicesForCurrentRoom.push({"id": newRowId, "name": newDeviceName, "powerConsumption": newDevicePowerComsumptionValue, "avgHours":newDeviceAvgHours, "roomId": currentRoom.id});
             constructDevicesList();
         });
     }
-    // if the user left the room name empty
-    else if (ev.detail.action == 'yes' && (newDeviceName == '' || newDevicePowerComsumptionValue == '')) {
+    // if the user left the fields empty
+    else if (ev.detail.action == 'yes' && (newDeviceName == '' || newDevicePowerComsumptionValue == '' || newDeviceAvgHours == '')) {
         snackbar.labelText = "All fields are required";
         snackbar.open();
     }
