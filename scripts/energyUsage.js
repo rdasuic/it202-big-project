@@ -1,0 +1,2 @@
+const calculateEnergyConsumptionPerDay = (watts, hoursPerDay) => ((watts*hoursPerDay)/1000);
+const calculateEnergyCostPerDay = (energyConsumptionPerDay, energyCost) => ((energyConsumptionPerDay*energyCost)/100);
