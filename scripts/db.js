@@ -15,6 +15,12 @@ const getAllRoomsFromDb = () => {
         db.rooms.toArray().then((data) => resolve(data));
    });
 }
+const getDeviceCountForRoomFromDb = (roomId) => {
+  console.log(`Getting count of devices for room id #${roomId}...`);
+  return new Promise((resolve, reject) => {
+    db.devices.where('roomId').equals(roomId).count().then((data) => resolve(data));
+  });
+}
 const addNewDeviceForRoomToDb = (name, powerConsumption, avgHours, image, roomId) => {
     console.log("Adding a new device to db...")
     const deviceObj = {

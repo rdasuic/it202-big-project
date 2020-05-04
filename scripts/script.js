@@ -66,15 +66,19 @@ const constructRoomsList = () => {
     roomsLayoutGridInnerEl.textContent = '';
     rooms.map((room) => {
       let roomCardClone = roomTemplateCardCell.cloneNode(true);
-      roomCardClone.querySelector('.room-name').textContent = room.name;
-      roomCardClone.querySelector('.room-id').textContent = room.id;
-      roomCardClone.querySelector('.room-device-count').textContent = 'This room has 4 devices';
-      roomCardClone.classList.remove('room-card-template-cell');
-      roomsLayoutGridInnerEl.appendChild(roomCardClone);
+      let deviceCount = 0;
+      getDeviceCountForRoomFromDb(room.id).then(data => {
+        deviceCount = data;
+        roomCardClone.querySelector('.room-name').textContent = room.name;
+        roomCardClone.querySelector('.room-id').textContent = room.id;
+        roomCardClone.querySelector('.room-device-count').textContent = (deviceCount == 1) ? `${deviceCount} device` : `${deviceCount} devices`;
+        roomCardClone.classList.remove('room-card-template-cell');
+        roomsLayoutGridInnerEl.appendChild(roomCardClone);
+        activateCardClickAnimations();
+        roomsCardsViewEl.style.display = 'block';
+        attachClickListenerToRoomCards();
+      });
     });
-    activateCardClickAnimations();
-    roomsCardsViewEl.style.display = 'block';
-    attachClickListenerToRoomCards();
 }
 addRoomFabEl.addEventListener('click', () => addRoomDialog.open());
 
