@@ -192,26 +192,3 @@ addNewDeviceBtnEl.addEventListener('click', () => {
       snackbar.open();
   }
 });
-addDeviceDialog.listen('MDCDialog:closing', (ev) => {
-    const newDeviceName = addDeviceDialogNameTextField.value.trim();
-    const newDevicePowerComsumptionValue = addDeviceDialogPowerTextField.value.trim();
-    const newDeviceAvgHours = addDeviceDialogAvgHoursTextField.value.trim();
-    const imageEncoding = 0;
-    // if the user filled in both fields 
-    if (ev.detail.action == 'yes' && newDeviceName != '' && newDevicePowerComsumptionValue != '' && newDeviceAvgHours != '') {
-        snackbar.labelText = `New device "${newDeviceName}" added.`
-        snackbar.open();
-        addNewDeviceForRoomToDb(newDeviceName, newDevicePowerComsumptionValue, newDeviceAvgHours, imageEncoding, currentRoom.id).then((newRowId) => {
-            devicesForCurrentRoom.push({"id": newRowId, "name": newDeviceName, "powerConsumption": newDevicePowerComsumptionValue, "avgHours":newDeviceAvgHours, "roomId": currentRoom.id});
-            constructDevicesList();
-        });
-    }
-    // if the user left the fields empty
-    else if (ev.detail.action == 'yes' && (newDeviceName == '' || newDevicePowerComsumptionValue == '' || newDeviceAvgHours == '')) {
-        snackbar.labelText = "All fields are required";
-        snackbar.open();
-    }
-    // empty the text field
-    addRoomDialogTextField.value = '';
-});
-
