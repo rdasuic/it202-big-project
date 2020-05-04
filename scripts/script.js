@@ -32,7 +32,7 @@ new mdc.ripple.MDCRipple.attachTo(cancelNewDeviceBtnEl);
 const noDevicesViewEl = document.querySelector('.no-devices-added');
 const deviceTemplateCardCell = document.querySelector('.device-card-template-cell');
 const devicesLayoutGridInnerEl = document.querySelector('.devices-layout-grid');
-const devicesCardsViewEl = document.querySelector('.device-cards-view');
+const devicesCardsViewEl = document.querySelector('.devices-cards-view');
 
 const mainAddDeviceView = document.querySelector('.add-device-view');
 

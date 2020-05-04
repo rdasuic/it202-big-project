@@ -2,5 +2,5 @@ const calculateEnergyConsumptionPerDay = (watts, hoursPerDay) => ((watts*hoursPe
 const calculateEnergyCostPerDay = (energyConsumptionPerDay, energyCost) => ((energyConsumptionPerDay*energyCost)/100);
 const calculateEnergyCost = (watts, hours, energyCost) => {
   const kw = watts/1000;
-  return kw * energyCost;
+  return (kw * energyCost).toFixed(6);
 }
