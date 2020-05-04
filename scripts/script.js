@@ -19,20 +19,31 @@ const roomsCardsViewEl = document.querySelector('.rooms-cards-view');
 
 
 const addDeviceFabEl = document.querySelector('.add-device-fab');
-const addDeviceDialogEl = document.querySelector('#mdc-dialog-device');
-const addDeviceDialog = new mdc.dialog.MDCDialog(addDeviceDialogEl);
-const addDeviceDialogNameTextFieldEl = document.querySelector('.add-device-name-text-field');
-const addDeviceDialogNameTextField = new mdc.textField.MDCTextField(addDeviceDialogNameTextFieldEl);
-const addDeviceDialogPowerTextFieldEl = document.querySelector('.add-device-power-text-field');
-const addDeviceDialogPowerTextField = new mdc.textField.MDCTextField(addDeviceDialogPowerTextFieldEl);
-const addDeviceDialogAvgHoursTextFieldEl = document.querySelector('.add-device-avg-hours-text-field');
-const addDeviceDialogAvgHoursTextField = new mdc.textField.MDCTextField(addDeviceDialogAvgHoursTextFieldEl);
+const addDeviceNameTextFieldEl = document.querySelector('.add-device-name-text-field');
+const addDeviceNameTextField = new mdc.textField.MDCTextField(addDeviceNameTextFieldEl);
+const addDevicePowerTextFieldEl = document.querySelector('.add-device-power-text-field');
+const addDevicePowerTextField = new mdc.textField.MDCTextField(addDevicePowerTextFieldEl);
+const addDeviceAvgHoursTextFieldEl = document.querySelector('.add-device-avg-hours-text-field');
+const addDeviceAvgHoursTextField = new mdc.textField.MDCTextField(addDeviceAvgHoursTextFieldEl);
+const addNewDeviceBtnEl = document.querySelector('.add-new-device-btn');
+new mdc.ripple.MDCRipple.attachTo(addNewDeviceBtnEl);
+const cancelNewDeviceBtnEl = document.querySelector('.cancel-new-device-btn');
+new mdc.ripple.MDCRipple.attachTo(cancelNewDeviceBtnEl);
 const noDevicesViewEl = document.querySelector('.no-devices-added');
 const deviceTemplateCardCell = document.querySelector('.device-card-template-cell');
 const devicesLayoutGridInnerEl = document.querySelector('.devices-layout-grid');
 const devicesCardsViewEl = document.querySelector('.device-cards-view');
 
+const mainAddDeviceView = document.querySelector('.add-device-view');
 
+
+const activateCardClickAnimations = () => {
+  const cardSelectors = '.mdc-button, .mdc-icon-button, .mdc-card__primary-action';
+  // enable ripple effects on cards
+  [].map.call(document.querySelectorAll(cardSelectors), (el) => {
+    return new mdc.ripple.MDCRipple(el);
+  });
+}
 
 let rooms = []; // holds the all the rooms 
 let currentRoom = {}; // holds the current room on the page
@@ -114,7 +125,12 @@ const goToRoomPage = (roomObj) => {
       }
     });
 }
-addDeviceFabEl.addEventListener('click', () => addDeviceDialog.open());
+addDeviceFabEl.addEventListener('click', () =>  {
+  mainRoomViewEl.style.display = 'none';
+  mainAddDeviceView.style.display = 'block';
+  topAppBarTitleEl.textContent = "Add a new device";
+  document.querySelector('#new-device-room-name').textContent = currentRoom.name;
+});
 
 const constructDevicesList = () => {
    // hide the no devices view
@@ -133,7 +149,49 @@ const constructDevicesList = () => {
     activateCardClickAnimations();
     devicesCardsViewEl.style.display = 'block';
 }
-
+cancelNewDeviceBtnEl.addEventListener('click', () => {
+  mainAddDeviceView.style.display = 'none';
+  mainRoomViewEl.style.display = 'block';
+  constructDevicesList();
+});
+addNewDeviceBtnEl.addEventListener('click', () => {
+  const newDeviceName = addDeviceNameTextField.value.trim();
+  const newDevicePowerComsumptionValue = addDevicePowerTextField.value.trim();
+  const newDeviceAvgHours = addDeviceAvgHoursTextField.value.trim();
+  const imageEncoding = 0;
+  
+  // if the user filled in all fields 
+  if (newDeviceName != '' && newDevicePowerComsumptionValue != '' && newDeviceAvgHours != '') {
+      if(!addDeviceAvgHoursTextField.valid) {
+        snackbar.labelText = "Average hours must be a number between 0 and 24 hours!";
+        snackbar.open();
+        return;
+      }
+      if(!addDevicePowerTextField.valid) {
+        snackbar.labelText = "Device power consumption must be a number greater than 1!";
+        snackbar.open();
+        return;
+      }
+      snackbar.labelText = `New device "${newDeviceName}" added.`
+      snackbar.open();
+      addNewDeviceForRoomToDb(newDeviceName, newDevicePowerComsumptionValue, newDeviceAvgHours, imageEncoding, currentRoom.id).then((newRowId) => {
+        devicesForCurrentRoom.push({"id": newRowId, "name": newDeviceName, "powerConsumption": newDevicePowerComsumptionValue, "avgHours":newDeviceAvgHours, "roomId": currentRoom.id});
+        mainAddDeviceView.style.display = 'none';
+        mainRoomViewEl.style.display = 'block';
+        constructDevicesList();
+        // empty the text fields
+        addDeviceNameTextField.value = '';
+        addDevicePowerTextField.value = '';
+        addDeviceAvgHoursTextField.value = '';
+      });
+      
+  }
+  // if the user left the fields empty
+  else if (newDeviceName == '' || newDevicePowerComsumptionValue == '' || newDeviceAvgHours == '') {
+      snackbar.labelText = "All fields are required";
+      snackbar.open();
+  }
+});
 addDeviceDialog.listen('MDCDialog:closing', (ev) => {
     const newDeviceName = addDeviceDialogNameTextField.value.trim();
     const newDevicePowerComsumptionValue = addDeviceDialogPowerTextField.value.trim();
@@ -157,10 +215,3 @@ addDeviceDialog.listen('MDCDialog:closing', (ev) => {
     addRoomDialogTextField.value = '';
 });
 
-const activateCardClickAnimations = () => {
-  const cardSelectors = '.mdc-button, .mdc-icon-button, .mdc-card__primary-action';
-  // enable ripple effects on cards
-  [].map.call(document.querySelectorAll(cardSelectors), (el) => {
-    return new mdc.ripple.MDCRipple(el);
-  });
-}

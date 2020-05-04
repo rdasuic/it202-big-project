@@ -61,7 +61,7 @@
     <div class="mdc-dialog__scrim"></div>
   </div>
   <!-- Dialogs: Add device -->
-  <div class="mdc-dialog" id="mdc-dialog-device">
+  <!--   <div class="mdc-dialog" id="mdc-dialog-device">
     <div class="mdc-dialog__container">
       <div class="mdc-dialog__surface" role="alertdialog" aria-modal="true" aria-labelledby="my-dialog-title" aria-describedby="my-dialog-content">
         <h2 class="mdc-dialog__title" id="my-dialog-title">Add a new device</h2>
@@ -95,7 +95,7 @@
       </div>
     </div>
     <div class="mdc-dialog__scrim"></div>
-  </div>
+  </div> -->
 
   <div class="mdc-snackbar">
     <div class="mdc-snackbar__surface">
@@ -181,6 +181,74 @@
       <div class="mdc-fab__ripple"></div>
       <span class="mdc-fab__icon material-icons">add</span>
     </button>
+  </main>
+  <main class="mdc-top-app-bar--fixed-adjust add-device-view">
+    <h2 class="mdc-typography--headline4">Add a new device to "<span id="new-device-room-name"></span>"</h2>
+    <h2 class="mdc-typography--headline5">Fill out some information about your device:</h2>
+    <div class="add-device-form">
+
+      <!--       <div class="mdc-text-field add-device-name-text-field">
+        <input type="text" class="mdc-text-field__input" id="device-name-input" name="device-name" required>
+        <label class="mdc-floating-label" for="device-name-input">Device name</label>
+        <div class="mdc-line-ripple"></div>
+      </div> -->
+      <label class="mdc-text-field mdc-text-field--outlined add-device-name-text-field">
+        <input type="text" class="mdc-text-field__input" id="device-name-input" name="device-name" required>
+        <span class="mdc-notched-outline">
+        <span class="mdc-notched-outline__leading"></span>
+        <span class="mdc-notched-outline__notch">
+        <label class="mdc-floating-label" for="device-name-input">Device name</label>
+        </span>
+        <span class="mdc-notched-outline__trailing"></span>
+        </span>
+      </label>
+      <br>
+      <br>
+      <!--       <div class="mdc-text-field add-device-power-text-field">
+        <input type="number" class="mdc-text-field__input" id="device-power-input" name="device-power" min="0" required>
+        <label class="mdc-floating-label" for="device-power-input">Device power consumption</label>
+        <div class="mdc-line-ripple"></div>
+      </div> -->
+      <label class="mdc-text-field mdc-text-field--outlined add-device-power-text-field">
+        <input type="number" class="mdc-text-field__input" id="device-power-input" name="device-power" min="0" required>
+        <span class="mdc-notched-outline">
+        <span class="mdc-notched-outline__leading"></span>
+        <span class="mdc-notched-outline__notch">
+        <label class="mdc-floating-label" for="device-power-input">Device power consumption</label>
+        </span>
+        <span class="mdc-notched-outline__trailing"></span>
+        </span>
+      </label>
+      <br>
+      <br>
+<!--       <div class="mdc-text-field add-device-avg-hours-text-field">
+        <input type="number" class="mdc-text-field__input" id="device-avg-hours-input" name="device-avg-hours" min="0" max="24" required>
+        <label class="mdc-floating-label" for="device-avg-hours-input">Average hours of use per day</label>
+        <div class="mdc-line-ripple"></div>
+      </div> -->
+        <label class="mdc-text-field mdc-text-field--outlined add-device-avg-hours-text-field">
+        <input type="number" class="mdc-text-field__input" id="device-avg-hours-input" name="device-avg-hours" min="0" max="24" required>
+        <span class="mdc-notched-outline">
+        <span class="mdc-notched-outline__leading"></span>
+        <span class="mdc-notched-outline__notch">
+        <label class="mdc-floating-label" for="device-avg-hours-input">Average hours of use per day</label>
+        </span>
+        <span class="mdc-notched-outline__trailing"></span>
+        </span>
+      </label>
+      <br>
+      <br>
+      <button type="button" class="mdc-button mdc-button--outlined cancel-new-device-btn">
+        <i class="material-icons mdc-button__icon" aria-hidden="true">cancel</i>
+        <div class="mdc-button__ripple"></div>
+        <span class="mdc-button__label">Cancel</span>
+      </button>
+      <button type="button" class="mdc-button mdc-button--raised add-new-device-btn">
+        <i class="material-icons mdc-button__icon" aria-hidden="true">add</i>
+        <div class="mdc-button__ripple"></div>
+        <span class="mdc-button__label">Add</span>
+      </button>
+    </div>
   </main>
 
   <script src="https://unpkg.com/material-components-web@v4.0.0/dist/material-components-web.min.js"></script>

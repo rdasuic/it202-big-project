@@ -1,32 +1,47 @@
 :root {
-    --mdc-theme-primary: crimson;
-    --mdc-theme-secondary: #37474f;
+  --mdc-theme-primary: crimson;
+  --mdc-theme-secondary: #37474f;
 }
 body {
-    margin: 0;
+  margin: 0;
 }
 main {
-    margin-left: 8px;
+  margin-left: 8px;
 }
-.main-room-view {
-    display: none;
+.main-room-view, .add-device-view {
+  display: none;
 }
 .view {
-    display: none;
+  display: none;
 }
-.add-room-fab, .add-device-fab{
-    position: fixed;
-    bottom: 1rem;
-    right: 1rem;
+.add-room-fab, .add-device-fab {
+  position: fixed;
+  bottom: 1rem;
+  right: 1rem;
+}
+.add-device-view {
+  margin: auto;
+  width: 50%;
+}
+.add-device-avg-hours-text-field {
+  width: 15em;
+}
+.add-device-form {
+  margin: auto;
+  width: 50%;
 }
 @media(min-width: 1024px) {
-    .add-room-fab {
-        bottom: 1.5rem;
-        right: 1.5rem;
-    }
+  .add-room-fab {
+    bottom: 1.5rem;
+    right: 1.5rem;
+  }
+  .add-device-form {
+    margin: auto;
+    width: 100%;
+  }
 }
 .room-card, .device-card {
-/*   height: 550px; */
+  /*   height: 550px; */
   margin: 48px 0;
   width: 350px;
 }
@@ -43,6 +58,6 @@ main {
   margin: 0;
 }
 .room-card__secondary, .room-card__subtitle, .device-card__secondary, .device-card__subtitle {
-  color: var(--mdc-theme-text-secondary-on-background,rgba(0,0,0,.54));
+  color: var(--mdc-theme-text-secondary-on-background, rgba(0, 0, 0, .54));
   margin: 0;
 }
