@@ -1,8 +1,12 @@
+let currentEnergyPrice;
 const getComedLast24HrsPrice = () => {
   // bare comed api gives us a CORS error,
   // this proxy mitigates the need for cors
-  fetch('https://cors-anywhere.herokuapp.com/https://hourlypricing.comed.com/api?type=5minutefeed')
+  fetch('https://cors-anywhere.herokuapp.com/https://hourlypricing.comed.com/api?type=currenthouraverage')
     .then(resp => resp.json())
-    .then(data => console.log(data));
+    .then(data => {
+      console.log(data);
+      currentEnergyPrice = (data[0].price)/100;
+  });
 }
 getComedLast24HrsPrice();
