@@ -196,3 +196,14 @@ addNewDeviceBtnEl.addEventListener('click', () => {
       snackbar.open();
   }
 });
+
+// enable enter key on the add device form
+[addDeviceNameTextFieldEl, addDevicePowerTextFieldEl, addDeviceAvgHoursTextFieldEl].forEach((inputField) => {
+  inputField.addEventListener("keyup", (ev) => {
+    // if enter key
+    if(ev.keyCode === 13) {
+      ev.preventDefault();
+      addNewDeviceBtnEl.click();
+    }
+  });
+})
