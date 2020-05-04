@@ -5,7 +5,6 @@ const getComedLast24HrsPrice = () => {
   fetch('https://cors-anywhere.herokuapp.com/https://hourlypricing.comed.com/api?type=currenthouraverage')
     .then(resp => resp.json())
     .then(data => {
-      console.log(data);
       currentEnergyPrice = (data[0].price)/100;
   });
 }
