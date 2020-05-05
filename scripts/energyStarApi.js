@@ -15,3 +15,26 @@ const searchForDevice = (query) => {
   return Promise.all(requests)
     .then(responses => Promise.all(responses.map(r => r.json())))
 }
+
+// the different data sets have their power consumption stats stored under different keys
+const filterDevicesWithPowerConsumptionStats = (devicesArr) => {
+  let filtered = [];
+  const keys = ["annual_energy_use_kwh_year",
+                "average_power_consumption_2_minutes_before_apd_watts",
+                "single_room_configuration_test_results_on_mode_power_w",
+                "multi_room_configuration_test_results_on_mode_power_w",
+                "standby_power_w",
+                "power_consumption_in_on_mode_watts",
+                "audio_playback_power_consumption_watts"
+               ]
+
+  devicesArr.map((deviceObj) => {
+    keys.map((key, idx) => {
+      if (key in deviceObj) {
+        deviceObj.powerConsumption = deviceObj[key];
+        filtered.push(deviceObj);
+      }
+    });
+  });
+  return filtered;
+}

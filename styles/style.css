@@ -8,7 +8,7 @@ body {
 main {
   margin-left: 8px;
 }
-.main-room-view, .add-device-view, .add-device-search-text-field {
+.main-room-view, .add-device-view, .add-device-search-text-field, .device-search-result-item-template {
   display: none;
 }
 .view {

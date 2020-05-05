@@ -61,20 +61,23 @@
     <div class="mdc-dialog__scrim"></div>
   </div>
 
-  <!-- Dialogs: Add room -->
+  <!-- Dialogs: Search devices -->
   <div class="mdc-dialog" id="mdc-dialog-device-search">
     <div class="mdc-dialog__container">
       <div class="mdc-dialog__surface" role="alertdialog" aria-modal="true" aria-labelledby="my-dialog-title" aria-describedby="my-dialog-content">
         <h2 class="mdc-dialog__title" id="my-dialog-title">Select a device</h2>
         <div class="mdc-dialog__content" id="my-dialog-content">
           <ul class="mdc-list mdc-list--two-line device-search-results">
-            <li class="mdc-list-item device-search-result-item-template" tabindex="0">
+            <li class="mdc-list-item device-search-result-item-template device-search-result-item" tabindex="0">
               <span class="mdc-list-item__text">
               <span class="mdc-list-item__primary-text device-name">Device 1</span>
-              <span class="mdc-list-item__secondary-text device-power-consumption">Device 1 Secondary text</span>
+              <span class="mdc-list-item__secondary-text device-power-consumption-container">Power consumption: <span id="device-power-consumption"></span> Watts</span>
               </span>
             </li>
           </ul>
+          <div class="no-device-search-results mdc-typography mdc-typography--headline3">
+            Sorry, no devices were found!
+          </div>
         </div>
       </div>
     </div>
@@ -205,7 +208,7 @@
         <label for="search-power-consumption-radio">Search for my device</label>
       </div>
       <label class="mdc-text-field mdc-text-field--outlined add-device-power-text-field">
-        <input type="number" class="mdc-text-field__input" id="device-power-input" name="device-power" min="0" required>
+        <input type="number" class="mdc-text-field__input" id="device-power-input" name="device-power" min="0" step="0.01" required>
         <span class="mdc-notched-outline power-notch">
         <span class="mdc-notched-outline__leading"></span>
         <span class="mdc-notched-outline__notch">
@@ -228,7 +231,7 @@
       <br>
       <br>
       <label class="mdc-text-field mdc-text-field--outlined add-device-avg-hours-text-field">
-        <input type="number" class="mdc-text-field__input" id="device-avg-hours-input" name="device-avg-hours" min="0" max="24" required>
+        <input type="number" class="mdc-text-field__input" id="device-avg-hours-input" name="device-avg-hours" min="0" max="24" step="0.5" required>
         <span class="mdc-notched-outline">
         <span class="mdc-notched-outline__leading"></span>
         <span class="mdc-notched-outline__notch">

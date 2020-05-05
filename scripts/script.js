@@ -38,6 +38,7 @@ const deviceSearchResultsDialog = new mdc.dialog.MDCDialog(deviceSearchResultsDi
 const deviceSearchResultsList = document.querySelector('.device-search-results');
 const deviceSearchResultItemTemplate = document.querySelector('.device-search-result-item-template');
 const deviceSearchBtnEl = document.querySelector('.device-search-btn');
+const noDeviceSearchResultsFoundEl = document.querySelector('.no-device-search-results');
 const noDevicesViewEl = document.querySelector('.no-devices-added');
 const deviceTemplateCardCell = document.querySelector('.device-card-template-cell');
 const devicesLayoutGridInnerEl = document.querySelector('.devices-layout-grid');
@@ -176,7 +177,7 @@ addNewDeviceBtnEl.addEventListener('click', () => {
   // if the user filled in all fields 
   if (newDeviceName != '' && newDevicePowerComsumptionValue != '' && newDeviceAvgHours != '') {
       if(!addDeviceAvgHoursTextField.valid) {
-        snackbar.labelText = "Average hours must be a number between 0 and 24 hours!";
+        snackbar.labelText = "Hours of use must be a number between 0 and 24 hours!";
         snackbar.open();
         return;
       }
@@ -196,6 +197,9 @@ addNewDeviceBtnEl.addEventListener('click', () => {
         addDeviceNameTextField.value = '';
         addDevicePowerTextField.value = '';
         addDeviceAvgHoursTextField.value = '';
+        
+        // reset the app bar title
+        topAppBarTitleEl.textContent = currentRoom.name;
       });
       
   }
@@ -216,33 +220,70 @@ addNewDeviceBtnEl.addEventListener('click', () => {
     }
   });
 });
+// enable enter key on search device field
+addDeviceSearchTextFieldEl.addEventListener('keyup', (ev) => {
+  if (ev.keyCode === 13 && addDeviceSearchTextField.value.trim() != '') {
+    ev.preventDefault();
+    searchForDeviceDialog(addDeviceSearchTextField.value.trim());
+  }
+});
 
 // setup power consumption radio btns
 [customPowerConsumptionRadioEl, searchPowerConsumptionRadioEl].forEach((radio) => {
   radio.addEventListener('change', () => {
     if (radio == customPowerConsumptionRadioEl) {
       addDeviceSearchTextFieldEl.style.display = 'none';
-      addDevicePowerTextFieldEl.style.display = 'block';
+      addDevicePowerTextFieldEl.style.display = 'inline-flex';
     }
     else {
-      addDeviceSearchTextFieldEl.style.display = 'block';
+      addDeviceSearchTextFieldEl.style.display = 'inline-flex';
       addDevicePowerTextFieldEl.style.display = 'none';
     }
   });
 });
 deviceSearchBtnEl.addEventListener('click' ,() => {
   if(addDeviceSearchTextField.value.trim() != '') {
-    deviceSearchResultsDialog.open();
-    let results = [];
-    const searchResults = searchForDevice(addDeviceSearchTextField.value.trim())
-      .then(data => {
-        data.map(d => results.push(...d));
-        results.map(result => {
-          let listItem = deviceSearchResultItemTemplate.cloneNode(true);
-          listItem.querySelector('.device-name').textContent = `${result.brand_name} ${result.model_name}`;
-          listItem.querySelector('.device-power-consumption').textContent = result.pd_id;
-          deviceSearchResultsList.appendChild(listItem);
-        });
-    });
+    searchForDeviceDialog(addDeviceSearchTextField.value.trim());
   }
 });
+
+const searchForDeviceDialog = (query) => {
+  deviceSearchResultsDialog.open();
+  let results = [];
+  const searchResults = searchForDevice(query)
+    .then(data => {
+      deviceSearchResultsList.textContent = '';
+      data.map(d => results.push(...d));
+      filteredResults = filterDevicesWithPowerConsumptionStats(results);
+      if (filteredResults.length <= 0) {
+        noDeviceSearchResultsFoundEl.style.display = 'block';
+      }
+      else {
+        noDeviceSearchResultsFoundEl.style.display = 'none';
+        filteredResults.map(result => {
+          let listItem = deviceSearchResultItemTemplate.cloneNode(true);
+          listItem.querySelector('.device-name').textContent = `${result.brand_name} ${result.model_name || result.model_number}`;
+          listItem.querySelector('#device-power-consumption').textContent = result.powerConsumption;
+          listItem.classList.remove('device-search-result-item-template');
+          deviceSearchResultsList.appendChild(listItem);
+        });
+        attachClickListenerToDeviceSearchResults();
+      }
+  });
+}
+const attachClickListenerToDeviceSearchResults = () => {
+  const deviceSearchResultListItemEls = document.querySelectorAll('.device-search-result-item');
+  deviceSearchResultListItemEls.forEach((item) => {
+    item.addEventListener('click', () => {
+      const currentDevicePowerConsumption  = item.querySelector('#device-power-consumption').textContent;
+      const currentDeviceName = item.querySelector('.device-name').textContent; 
+      if(!addDeviceNameTextFieldEl.value || addDeviceNameTextFieldEl.value == '') {
+        addDeviceNameTextField.value = currentDeviceName;
+      }
+      addDeviceSearchTextFieldEl.style.display = 'none';
+      addDevicePowerTextFieldEl.style.display = 'inline-flex';
+      addDevicePowerTextField.value = currentDevicePowerConsumption;
+      deviceSearchResultsDialog.close();
+    });
+  });  
+}
