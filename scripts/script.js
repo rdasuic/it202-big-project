@@ -156,6 +156,7 @@ const constructDevicesList = () => {
       deviceCardClone.querySelector('.device-name').textContent = device.name;
       deviceCardClone.querySelector('.device-power-consumption').textContent = device.powerConsumption;
       deviceCardClone.querySelector('.device-avg-hours').textContent = device.avgHours;
+      deviceCardClone.querySelector('.device-estimated-cost-hourly').textContent = calculateEnergyCost(device.powerConsumption, 1, currentEnergyPrice);
       deviceCardClone.querySelector('.device-estimated-cost').textContent = calculateEnergyCost(device.powerConsumption, device.avgHours, currentEnergyPrice);
       deviceCardClone.classList.remove('device-card-template-cell');
       devicesLayoutGridInnerEl.appendChild(deviceCardClone);

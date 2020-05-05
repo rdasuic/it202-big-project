@@ -4,12 +4,14 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width">
-  <title>IT202 Big Project</title>
+  <title>Power Meter - IT202 Big Project</title>
   <link href="https://unpkg.com/material-components-web@v4.0.0/dist/material-components-web.min.css" rel="stylesheet">
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
   <link rel="stylesheet" href="./styles/style.css">
-
+  <link rel="apple-touch-icon" sizes="180x180" href="images/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="images/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="images/favicon-16x16.png">
 </head>
 
 <body>
@@ -155,12 +157,8 @@
                 <h3 class="device-card__subtitle mdc-typography mdc-typography--subtitle2 device-power-consumption-container">Power consumption: <span class="device-power-consumption">4</span> Watts</h3>
                 <h3 class="device-card__subtitle mdc-typography mdc-typography--subtitle2 device-avg-hours-container">Average hours used: <span class="device-avg-hours">4</span> Hours</h3>
               </div>
-              <div class="device-card__secondary mdc-typography mdc-typography--body2 device-estimated-cost-container">Estimated usage cost at this hour: $<span class="device-estimated-cost"></span>/hr</div>
-            </div>
-            <div class="mdc-card__actions">
-              <div class="mdc-card__action-buttons">
-                <button class="mdc-button mdc-card__action mdc-card__action--button mdc-ripple-upgraded"><span class="mdc-button__ripple"></span>Edit device</button>
-              </div>
+              <div class="device-card__secondary mdc-typography mdc-typography--body2 device-estimated-cost-hourly-container">Estimated usage cost at this hour: $<span class="device-estimated-cost-hourly"></span>/hr</div>
+              <div class="device-card__secondary mdc-typography mdc-typography--body2 device-estimated-cost-container">Estimated usage cost for 24 hours: $<span class="device-estimated-cost"></span></div>
             </div>
           </div>
         </div>
