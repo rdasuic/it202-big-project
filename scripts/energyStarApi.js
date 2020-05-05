@@ -14,14 +14,4 @@ const searchForDevice = (query) => {
   let requests = apiEndpoints.map(endpoint => fetch(`${endpoint}?$q=${query}`));
   return Promise.all(requests)
     .then(responses => Promise.all(responses.map(r => r.json())))
-//     .then(data => {
-//       data.map(d => {
-//         results.push(...d);
-//         return results;
-//       });
-//   });
-//   return results;
 }
-searchForDevice('sony')
-//   .then(data => console.log(...data))
-    .then(data => console.log(data))
