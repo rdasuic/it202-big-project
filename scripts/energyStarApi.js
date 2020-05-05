@@ -12,10 +12,16 @@ const searchForDevice = (query) => {
   ]
   let results = [];
   let requests = apiEndpoints.map(endpoint => fetch(`${endpoint}?$q=${query}`));
-  Promise.all(requests)
+  return Promise.all(requests)
     .then(responses => Promise.all(responses.map(r => r.json())))
-    .then(data => {
-      data.map(d => results.push(...d));
-  });
-  return results;
+//     .then(data => {
+//       data.map(d => {
+//         results.push(...d);
+//         return results;
+//       });
+//   });
+//   return results;
 }
+searchForDevice('sony')
+//   .then(data => console.log(...data))
+    .then(data => console.log(data))

@@ -25,10 +25,19 @@ const addDevicePowerTextFieldEl = document.querySelector('.add-device-power-text
 const addDevicePowerTextField = new mdc.textField.MDCTextField(addDevicePowerTextFieldEl);
 const addDeviceAvgHoursTextFieldEl = document.querySelector('.add-device-avg-hours-text-field');
 const addDeviceAvgHoursTextField = new mdc.textField.MDCTextField(addDeviceAvgHoursTextFieldEl);
+const addDeviceSearchTextFieldEl = document.querySelector('.add-device-search-text-field');
+const addDeviceSearchTextField = new mdc.textField.MDCTextField(addDeviceSearchTextFieldEl);
+const customPowerConsumptionRadioEl = document.querySelector('#custom-power-consumption-radio');
+const searchPowerConsumptionRadioEl = document.querySelector('#search-power-consumption-radio');
 const addNewDeviceBtnEl = document.querySelector('.add-new-device-btn');
 new mdc.ripple.MDCRipple.attachTo(addNewDeviceBtnEl);
 const cancelNewDeviceBtnEl = document.querySelector('.cancel-new-device-btn');
 new mdc.ripple.MDCRipple.attachTo(cancelNewDeviceBtnEl);
+const deviceSearchResultsDialogEl = document.querySelector('#mdc-dialog-device-search');
+const deviceSearchResultsDialog = new mdc.dialog.MDCDialog(deviceSearchResultsDialogEl);
+const deviceSearchResultsList = document.querySelector('.device-search-results');
+const deviceSearchResultItemTemplate = document.querySelector('.device-search-result-item-template');
+const deviceSearchBtnEl = document.querySelector('.device-search-btn');
 const noDevicesViewEl = document.querySelector('.no-devices-added');
 const deviceTemplateCardCell = document.querySelector('.device-card-template-cell');
 const devicesLayoutGridInnerEl = document.querySelector('.devices-layout-grid');
@@ -206,4 +215,34 @@ addNewDeviceBtnEl.addEventListener('click', () => {
       addNewDeviceBtnEl.click();
     }
   });
-})
+});
+
+// setup power consumption radio btns
+[customPowerConsumptionRadioEl, searchPowerConsumptionRadioEl].forEach((radio) => {
+  radio.addEventListener('change', () => {
+    if (radio == customPowerConsumptionRadioEl) {
+      addDeviceSearchTextFieldEl.style.display = 'none';
+      addDevicePowerTextFieldEl.style.display = 'block';
+    }
+    else {
+      addDeviceSearchTextFieldEl.style.display = 'block';
+      addDevicePowerTextFieldEl.style.display = 'none';
+    }
+  });
+});
+deviceSearchBtnEl.addEventListener('click' ,() => {
+  if(addDeviceSearchTextField.value.trim() != '') {
+    deviceSearchResultsDialog.open();
+    let results = [];
+    const searchResults = searchForDevice(addDeviceSearchTextField.value.trim())
+      .then(data => {
+        data.map(d => results.push(...d));
+        results.map(result => {
+          let listItem = deviceSearchResultItemTemplate.cloneNode(true);
+          listItem.querySelector('.device-name').textContent = `${result.brand_name} ${result.model_name}`;
+          listItem.querySelector('.device-power-consumption').textContent = result.pd_id;
+          deviceSearchResultsList.appendChild(listItem);
+        });
+    });
+  }
+});
