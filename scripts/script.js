@@ -47,6 +47,15 @@ const devicesCardsViewEl = document.querySelector('.devices-cards-view');
 const mainAddDeviceView = document.querySelector('.add-device-view');
 
 
+// register the service worker first
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", function() {
+    navigator.serviceWorker
+      .register("./sw.js")
+      .then(res => console.log("service worker registered"))
+      .catch(err => console.log("service worker not registered", err));
+  });
+}
 const activateCardClickAnimations = () => {
   const cardSelectors = '.mdc-button, .mdc-icon-button, .mdc-card__primary-action';
   // enable ripple effects on cards
